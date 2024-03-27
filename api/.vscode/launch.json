@@ -6,10 +6,11 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/server.go",
+            "program": "${workspaceFolder}/main.go",
             "env": {
                 "ENV": "local",
-                "SERVER_PORT": ":3005"
+                "SERVER_PORT": ":3005",
+                "SINGLE_TABLE_NAME": "mojo-jojo-db",
             }
         }
     ]

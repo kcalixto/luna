@@ -1,59 +1,72 @@
 package finances
 
 import (
+	"context"
+
 	"github.com/gin-gonic/gin"
 	"github.com/kcalixto/mojo-jojo/api/controllers"
 	"github.com/kcalixto/mojo-jojo/api/controllers/viewmodels"
-	"github.com/kcalixto/mojo-jojo/api/server/router/routerutils/response"
+	responseUtils "github.com/kcalixto/mojo-jojo/api/server/router/routerutils/response"
 )
 
-func RegisterFinancesRoutes(router *gin.RouterGroup, crtl *controllers.Controller) {
-	r := newFinancesRouter(crtl)
+func RegisterFinancesRoutes(lambdaContext context.Context, router *gin.RouterGroup, ctrl *controllers.Controller) {
+	r := newFinancesRouter(lambdaContext, ctrl)
 
 	router.POST("/income/:action", r.HandleIncome)
 	router.POST("/expense/:action", r.HandleExpense)
 }
 
 type financesRouter struct {
-	ctrl *controllers.Controller
+	lambdaContext context.Context
+	ctrl          *controllers.Controller
 }
 
-func newFinancesRouter(crtl *controllers.Controller) *financesRouter {
-	return &financesRouter{
-		ctrl: crtl,
-	}
+func newFinancesRouter(lambdaContext context.Context, ctrl *controllers.Controller) *financesRouter {
+	return &financesRouter{lambdaContext, ctrl}
 }
 
 func (r *financesRouter) HandleIncome(ctx *gin.Context) {
-	var request viewmodels.IncomePayload
+	var request viewmodels.IncomeRequestPayload
 	err := ctx.Bind(&request)
 	if err != nil {
-		response.BadRequest(ctx, err.Error())
+		responseUtils.BadRequest(ctx, err.Error())
 		return
 	}
-
-	res, err := r.ctrl.Finances.HandleIncome(request)
+	var requestUri viewmodels.IncomeRequestUri
+	err = ctx.ShouldBindUri(&requestUri)
 	if err != nil {
-		response.InternalServerError(ctx, err.Error())
+		responseUtils.BadRequest(ctx, err.Error())
 		return
 	}
 
-	response.Success(ctx, res)
+	response, err := r.ctrl.Finances.HandleIncome(r.lambdaContext, requestUri, request)
+	if err != nil {
+		responseUtils.InternalServerError(ctx, err.Error())
+		return
+	}
+
+	responseUtils.Success(ctx, response)
 }
 
 func (r *financesRouter) HandleExpense(ctx *gin.Context) {
-	var request viewmodels.ExpensePayload
+	var request viewmodels.ExpenseRequestPayload
 	err := ctx.Bind(&request)
 	if err != nil {
-		response.BadRequest(ctx, err.Error())
+		responseUtils.BadRequest(ctx, err.Error())
 		return
 	}
-
-	res, err := r.ctrl.Finances.HandleExpense(request)
+	var requestUri viewmodels.ExpenseRequestUri
+	err = ctx.ShouldBindUri(&requestUri)
 	if err != nil {
-		response.InternalServerError(ctx, err.Error())
+		responseUtils.BadRequest(ctx, err.Error())
 		return
 	}
 
-	response.Success(ctx, res)
+	response, err := r.ctrl.Finances.HandleExpense(r.lambdaContext, requestUri, request)
+	if err != nil {
+		responseUtils.InternalServerError(ctx, err.Error())
+		return
+	}
+
+	responseUtils.Success(ctx, response)
 }

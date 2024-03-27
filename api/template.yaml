@@ -67,3 +67,6 @@ Resources:
             Path: /{proxy+}
             Method: ANY
             RestApiId: !Ref ApiGatewayApi
+      Environment:
+        Variables:
+          SINGLE_TABLE_NAME: !Ref DynamoDBTable

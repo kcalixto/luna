@@ -3,18 +3,28 @@ package services
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/kcalixto/mojo-jojo/api/config"
+	"github.com/kcalixto/mojo-jojo/api/data/repository"
 	"github.com/kcalixto/mojo-jojo/api/services/finances"
+	"github.com/kcalixto/mojo-jojo/api/services/serviceUtils"
 )
 
 type Services struct {
-	Finances financesService.FinancesService
+	Finances *financesService.FinancesService
 }
 
 func New(
 	vld *validator.Validate,
 	cfg *config.Config,
-) *Services {
-	return &Services{
-		Finances: *financesService.NewFinancesService(vld, cfg),
+	repo *repository.RepositoryManager,
+) (*Services, error) {
+	utils := serviceUtils.NewServiceUtils()
+
+	financesSvc, err := financesService.NewFinancesService(vld, cfg, repo, utils)
+	if err != nil {
+		return nil, err
 	}
+
+	return &Services{
+		Finances: financesSvc,
+	}, nil
 }

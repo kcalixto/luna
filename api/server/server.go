@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -8,22 +9,50 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/kcalixto/mojo-jojo/api/config"
 	"github.com/kcalixto/mojo-jojo/api/controllers"
+	"github.com/kcalixto/mojo-jojo/api/data/repository"
 	"github.com/kcalixto/mojo-jojo/api/server/router"
 	"github.com/kcalixto/mojo-jojo/api/services"
 )
 
-func NewLocalServer(
-	_controllers *controllers.Controller,
-	_services *services.Services,
-	_validator *validator.Validate,
-	_config *config.Config,
-) {
-	_config = config.New()
-	_validator = validator.New()
-	_services = services.New(_validator, _config)
-	_controllers = controllers.New(_services)
+func endIfError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
 
-	ginEngine := router.NewEngine(_controllers)
+func NewLocalServer(
+	controllersPointer *controllers.Controller,
+	servicesPointer *services.Services,
+	validatorPointer *validator.Validate,
+	configPointer *config.Config,
+	repoPointer *repository.RepositoryManager,
+) {
+	var err error
+	lambdaContext := context.Background()
+	// In local development all these pointers are nil, but go linter will say that they are being replaced before it's first use
+	// So we need to check if they are nil before creating a new instance to avoid this warn message!
+	if configPointer == nil {
+		configPointer = config.New()
+		endIfError(err)
+	}
+	if validatorPointer == nil {
+		validatorPointer = validator.New()
+		endIfError(err)
+	}
+	if repoPointer == nil {
+		repoPointer = repository.New(context.Background(), configPointer, validatorPointer)
+		endIfError(err)
+	}
+	if servicesPointer == nil {
+		servicesPointer, err = services.New(validatorPointer, configPointer, repoPointer)
+		endIfError(err)
+	}
+	if controllersPointer == nil {
+		controllersPointer = controllers.New(servicesPointer)
+		endIfError(err)
+	}
+
+	ginEngine := router.NewEngine(lambdaContext, controllersPointer)
 	port, ok := os.LookupEnv("SERVER_PORT")
 	if !ok {
 		panic("SERVER_PORT not set")
@@ -35,31 +64,40 @@ func NewLocalServer(
 func NewLambdaServer(
 	initialized bool,
 	ginLambda *ginadapter.GinLambda,
-	_controllers *controllers.Controller,
-	_services *services.Services,
-	_validator *validator.Validate,
-	_config *config.Config,
-) func(events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	return func(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	controllersPointer *controllers.Controller,
+	servicesPointer *services.Services,
+	validatorPointer *validator.Validate,
+	configPointer *config.Config,
+	repoPointer *repository.RepositoryManager,
+) func(context.Context, events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	return func(lambdaContext context.Context, request events.APIGatewayProxyRequest) (_ events.APIGatewayProxyResponse, err error) {
 		if initialized {
 			return ginLambda.Proxy(request)
 		}
 		// not initialized
-		if _config == nil {
-			_config = config.New()
+		if configPointer == nil {
+			configPointer = config.New()
+			endIfError(err)
 		}
-		if _validator == nil {
-			_validator = validator.New()
+		if validatorPointer == nil {
+			validatorPointer = validator.New()
+			endIfError(err)
 		}
-		if _services == nil {
-			_services = services.New(_validator, _config)
+		if repoPointer == nil {
+			repoPointer = repository.New(lambdaContext, configPointer, validatorPointer)
+			endIfError(err)
 		}
-		if _controllers == nil {
-			_controllers = controllers.New(_services)
+		if servicesPointer == nil {
+			servicesPointer, err = services.New(validatorPointer, configPointer, repoPointer)
+			endIfError(err)
+		}
+		if controllersPointer == nil {
+			controllersPointer = controllers.New(servicesPointer)
+			endIfError(err)
 		}
 
 		if !initialized {
-			ginEngine := router.NewEngine(_controllers)
+			ginEngine := router.NewEngine(lambdaContext, controllersPointer)
 			ginLambda = ginadapter.New(ginEngine)
 			initialized = true
 		}

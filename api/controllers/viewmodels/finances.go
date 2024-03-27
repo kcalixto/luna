@@ -19,10 +19,12 @@ const (
 // acton: viewmodel.IncomeActionEnum
 // title: title of the income
 // amount: amount of the income
-type IncomePayload struct {
-	Type   IncomeActionEnum `json:"action"`
-	Title  string           `json:"title"`
-	Amount float64          `json:"amount"`
+type IncomeRequestPayload struct {
+	Title  string  `json:"title" binding:"required"`
+	Amount float64 `json:"amount" binding:"required"`
+}
+type IncomeRequestUri struct {
+	Type IncomeActionEnum `uri:"action" binding:"required"`
 }
 
 // Expense
@@ -44,8 +46,10 @@ const (
 // acton: viewmodel.ExpenseActionEnum
 // title: title of the expense
 // amount: amount of the expense
-type ExpensePayload struct {
-	Type   ExpenseActionEnum `json:"action"`
-	Title  string            `json:"title"`
-	Amount float64           `json:"amount"`
+type ExpenseRequestPayload struct {
+	Title  string  `json:"title" binding:"required"`
+	Amount float64 `json:"amount" binding:"required"`
+}
+type ExpenseRequestUri struct {
+	Type IncomeActionEnum `uri:"action" binding:"required"`
 }

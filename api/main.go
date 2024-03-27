@@ -8,6 +8,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/kcalixto/mojo-jojo/api/config"
 	controllers "github.com/kcalixto/mojo-jojo/api/controllers"
+	"github.com/kcalixto/mojo-jojo/api/data/repository"
 	"github.com/kcalixto/mojo-jojo/api/server"
 	"github.com/kcalixto/mojo-jojo/api/services"
 )
@@ -15,28 +16,32 @@ import (
 var initialized = false
 var ginLambda *ginadapter.GinLambda
 
-var _config *config.Config
-var _validator *validator.Validate
-var _services *services.Services
-var _controllers *controllers.Controller
+// Lambdas can keep these values "in memory", so we don't need to re-create them every time a new lambda is called!
+var inMemory_config *config.Config
+var inMemory_validator *validator.Validate
+var inMemory_repository *repository.RepositoryManager
+var inMemory_services *services.Services
+var inMemory_controllers *controllers.Controller
 
 func main() {
 	if os.Getenv("ENV") == "local" {
 		server.NewLocalServer(
-			_controllers,
-			_services,
-			_validator,
-			_config,
+			inMemory_controllers,
+			inMemory_services,
+			inMemory_validator,
+			inMemory_config,
+			inMemory_repository,
 		)
 	} else {
 		lambda.Start(
 			server.NewLambdaServer(
 				initialized,
 				ginLambda,
-				_controllers,
-				_services,
-				_validator,
-				_config,
+				inMemory_controllers,
+				inMemory_services,
+				inMemory_validator,
+				inMemory_config,
+				inMemory_repository,
 			),
 		)
 	}
