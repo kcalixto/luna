@@ -20,6 +20,16 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v3
 
+      - name: Check deploy.lock
+        run: |
+          if [ -f deploy.lock ]; then
+            echo "another deploy is already in progress, exiting..."
+            exit 1
+          fi
+
+      - name: Create a deploy lock file
+        run: touch deploy.lock
+
       - name: "Set up Go"
         uses: actions/setup-go@v3
         with:
@@ -35,3 +45,6 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
           make deploy
+
+      - name: Clean up deploy lock file
+        run: rm deploy.lock
