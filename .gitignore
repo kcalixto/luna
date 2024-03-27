@@ -6,4 +6,4 @@
 # WWW
 
 # API
-./api/.aws-sam
+api/.aws-sam/*
