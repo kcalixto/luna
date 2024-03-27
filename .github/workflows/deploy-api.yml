@@ -9,6 +9,10 @@ on:
       - ".github/workflows/deploy-api.yml"
       - "api/**"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: deploy
@@ -19,16 +23,6 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v3
-
-      - name: Check deploy.lock
-        run: |
-          if [ -f deploy.lock ]; then
-            echo "another deploy is already in progress, exiting..."
-            exit 1
-          fi
-
-      - name: Create a deploy lock file
-        run: touch deploy.lock
 
       - name: "Set up Go"
         uses: actions/setup-go@v3
@@ -45,6 +39,3 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
           make deploy
-
-      - name: Clean up deploy lock file
-        run: rm deploy.lock
