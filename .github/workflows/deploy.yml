@@ -5,11 +5,12 @@ on:
     branches:
       - main
     paths:
+      - ".github/workflows/deploy-api.yml"
       - "api/**"
 
 jobs:
   deploy:
-    name: build
+    name: deploy
     runs-on: ubuntu-latest
     defaults:
       run:
