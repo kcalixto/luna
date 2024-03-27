@@ -3,10 +3,11 @@ package services
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/kcalixto/mojo-jojo/api/config"
+	"github.com/kcalixto/mojo-jojo/api/services/finances"
 )
 
 type Services struct {
-	Finances FinancesService
+	Finances financesService.FinancesService
 }
 
 func New(
@@ -14,6 +15,6 @@ func New(
 	cfg *config.Config,
 ) *Services {
 	return &Services{
-		Finances: *newFinancesService(vld, cfg),
+		Finances: *financesService.NewFinancesService(vld, cfg),
 	}
 }

@@ -1,4 +1,4 @@
-package services
+package financesService
 
 import (
 	"github.com/go-playground/validator/v10"
@@ -13,7 +13,7 @@ type FinancesService struct {
 	Expense IFinancesExpense
 }
 
-func newFinancesService(
+func NewFinancesService(
 	vld *validator.Validate,
 	cfg *config.Config,
 ) *FinancesService {
@@ -33,30 +33,4 @@ type IFinancesIncome interface {
 }
 type IFinancesExpense interface {
 	Add(request types.ExpensePayload) (response string, err error)
-}
-
-type FinancesIncome struct {
-	svc *FinancesService
-}
-
-type FinancesExpense struct {
-	svc *FinancesService
-}
-
-func newFinancesIncomeService(svc *FinancesService) IFinancesIncome {
-	return &FinancesIncome{svc}
-}
-
-func newFinancesExpenseService(svc *FinancesService) IFinancesExpense {
-	return &FinancesExpense{svc}
-}
-
-func (f *FinancesIncome) Add(request types.IncomePayload) (response string, err error) {
-	// TODO
-	return "income added successfully", nil
-}
-
-func (f *FinancesExpense) Add(request types.ExpensePayload) (response string, err error) {
-	// TODO
-	return "expense added successfully", nil
 }
