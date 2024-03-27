@@ -1,1 +1,9 @@
+# GLOBAL
 .DS_Store
+
+# APP
+
+# WWW
+
+# API
+./api/.aws-sam
