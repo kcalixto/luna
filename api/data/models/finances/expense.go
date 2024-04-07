@@ -1,7 +1,7 @@
 package financesModels
 
-// AddIncomeModel is the model for adding a new income to the database
-type AddIncomeModel struct {
+// AddExpenseModel is the model for adding a new expense to the database
+type AddExpenseModel struct {
 	PK          string  `validate:"required" dynamodbav:"pk"`
 	SK          string  `validate:"required" dynamodbav:"sk"`
 	Amount      float64 `validate:"required" dynamodbav:"amount"`

@@ -21,7 +21,7 @@ func newFinancesIncomeService(svc *FinancesService, repoManager *financesReposit
 	return &FinancesIncomeService{svc, repo}, nil
 }
 
-func (s *FinancesIncomeService) Add(ctx context.Context, payload types.IncomePayload) (response string, err error) {
+func (s *FinancesIncomeService) Add(ctx context.Context, payload types.Income) (response string, err error) {
 	payload.ID = s.svc.utils.GenerateUUID()
 
 	err = s.repo.AddIncome(ctx, payload)

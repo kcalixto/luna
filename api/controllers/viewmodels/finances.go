@@ -20,8 +20,15 @@ const (
 // title: title of the income
 // amount: amount of the income
 type IncomeRequestPayload struct {
-	Title  string  `json:"title" binding:"required"`
-	Amount float64 `json:"amount" binding:"required"`
+	Amount      float64 `json:"amount" binding:"required"`
+	Received    *bool   `json:"received" binding:"required"`
+	Date        string  `json:"date" binding:"required"`
+	Description string  `json:"description" binding:"required"`
+	Category    string  `json:"category" binding:"required"`
+	Account     string  `json:"account" binding:"required"`
+	Recurrent   *bool   `json:"recurrent" binding:"required"`
+	Note        string  `json:"note" binding:"required"`
+	Ignore      *bool   `json:"ignore" binding:"required"`
 }
 type IncomeRequestUri struct {
 	Type IncomeActionEnum `uri:"action" binding:"required"`
@@ -47,8 +54,15 @@ const (
 // title: title of the expense
 // amount: amount of the expense
 type ExpenseRequestPayload struct {
-	Title  string  `json:"title" binding:"required"`
-	Amount float64 `json:"amount" binding:"required"`
+	Amount      float64 `json:"amount" binding:"required"`
+	Received    *bool   `json:"received" binding:"required"`
+	Date        string  `json:"date" binding:"required"`
+	Description string  `json:"description" binding:"required"`
+	Category    string  `json:"category" binding:"required"`
+	Account     string  `json:"account" binding:"required"`
+	Recurrent   *bool   `json:"recurrent" binding:"required"`
+	Note        string  `json:"note" binding:"required"`
+	Ignore      *bool   `json:"ignore" binding:"required"`
 }
 type ExpenseRequestUri struct {
 	Type IncomeActionEnum `uri:"action" binding:"required"`

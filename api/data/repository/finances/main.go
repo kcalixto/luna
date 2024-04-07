@@ -19,3 +19,7 @@ func NewFinancesRepositoryManager(client *dynamodb.Client, cfg *config.Database,
 func (m *FinancesRepositoryManager) NewFinancesIncomeRepository() (IFinancesIncomeRepository, error) {
 	return newFinancesIncomesRepository(m.cfg, m.client, m.vld)
 }
+
+func (m *FinancesRepositoryManager) NewFinancesExpenseRepository() (IFinancesExpenseRepository, error) {
+	return newFinancesExpensesRepository(m.cfg, m.client, m.vld)
+}

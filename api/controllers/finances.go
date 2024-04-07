@@ -2,10 +2,9 @@ package controllers
 
 import (
 	"context"
-
+	controllerutils "github.com/kcalixto/mojo-jojo/api/controllers/controllerUtils"
 	"github.com/kcalixto/mojo-jojo/api/controllers/viewmodels"
 	"github.com/kcalixto/mojo-jojo/api/services"
-	"github.com/kcalixto/mojo-jojo/api/types"
 )
 
 type FinancesController struct {
@@ -17,9 +16,9 @@ func newFinancesController(svc *services.Services) *FinancesController {
 }
 
 func (f *FinancesController) HandleIncome(ctx context.Context, requestUri viewmodels.IncomeRequestUri, request viewmodels.IncomeRequestPayload) (response string, err error) {
-	payload := types.IncomePayload{
-		Title:  request.Title,
-		Amount: request.Amount,
+	payload, err := controllerutils.ParseIncomePayload(request)
+	if err != nil {
+		return response, err
 	}
 
 	switch requestUri.Type {
@@ -40,9 +39,9 @@ func (f *FinancesController) HandleIncome(ctx context.Context, requestUri viewmo
 }
 
 func (f *FinancesController) HandleExpense(ctx context.Context, requestUri viewmodels.ExpenseRequestUri, request viewmodels.ExpenseRequestPayload) (response string, err error) {
-	payload := types.ExpensePayload{
-		Title:  request.Title,
-		Amount: request.Amount,
+	payload, err := controllerutils.ParseExpensePayload(request)
+	if err != nil {
+		return response, err
 	}
 
 	switch requestUri.Type {

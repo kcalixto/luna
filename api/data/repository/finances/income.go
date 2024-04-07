@@ -15,17 +15,19 @@ import (
 
 // IFinancesIncomeRepository is the interface that defines the methods for the finances income repository
 type IFinancesIncomeRepository interface {
-	AddIncome(ctx context.Context, income types.IncomePayload) (err error)
+	AddIncome(ctx context.Context, income types.Income) (err error)
 	PutIncome(ctx context.Context) (err error)
 	DeleteIncome(ctx context.Context) (err error)
 }
 
+// financesIncomeRepository is the struct that implements the IFinancesIncomeRepository interface and handle the database operations for the finances income
 type financesIncomeRepository struct {
 	table  string
 	client *dynamodb.Client
 	vld    *validator.Validate
 }
 
+// creates a new instance of IFianancesIncomeRepository
 func newFinancesIncomesRepository(cfg *config.Database, client *dynamodb.Client, vld *validator.Validate) (IFinancesIncomeRepository, error) {
 	table := cfg.SingleTableName
 	if table == "" {
@@ -36,12 +38,19 @@ func newFinancesIncomesRepository(cfg *config.Database, client *dynamodb.Client,
 }
 
 // AddIncome adds a new income to the database
-func (r *financesIncomeRepository) AddIncome(ctx context.Context, income types.IncomePayload) (err error) {
+func (r *financesIncomeRepository) AddIncome(ctx context.Context, income types.Income) (err error) {
 	item := financesModels.AddIncomeModel{
-		PK:     r.buildPK(),
-		SK:     r.buildSK(income.ID),
-		Title:  income.Title,
-		Amount: income.Amount,
+		PK:          r.buildPK(),
+		SK:          r.buildSK(income.ID),
+		Amount:      income.Amount,
+		Received:    income.Received,
+		Date:        income.Date.Format("2006-01-02"),
+		Description: income.Description,
+		Category:    income.Category,
+		Account:     income.Account,
+		Recurrent:   income.Recurrent,
+		Note:        income.Note,
+		Ignore:      income.Ignore,
 	}
 
 	marshaledItem, err := attributevalue.MarshalMap(item)
@@ -71,10 +80,12 @@ func (r *financesIncomeRepository) DeleteIncome(ctx context.Context) (err error)
 	return nil
 }
 
+// Builds the partition key for the income inside the single table database schema
 func (r *financesIncomeRepository) buildPK() string {
 	return "ACCOUNT#DEFAULT"
 }
 
+// Builds the sort key for the income inside the single table database schema
 func (r *financesIncomeRepository) buildSK(id string) string {
 	return fmt.Sprintf("INCOME#%s", id)
 }

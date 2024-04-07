@@ -3,19 +3,32 @@ package financesService
 import (
 	"context"
 
+	financesRepository "github.com/kcalixto/mojo-jojo/api/data/repository/finances"
 	"github.com/kcalixto/mojo-jojo/api/types"
 )
 
 type FinancesExpenseService struct {
-	svc *FinancesService
+	svc  *FinancesService
+	repo financesRepository.IFinancesExpenseRepository
 }
 
-func newFinancesExpenseService(svc *FinancesService) IFinancesExpenseService {
-	return &FinancesExpenseService{svc}
+func newFinancesExpenseService(svc *FinancesService, repoManager *financesRepository.FinancesRepositoryManager) (IFinancesExpenseService, error) {
+	repo, err := repoManager.NewFinancesExpenseRepository()
+	if err != nil {
+		return nil, err
+	}
+
+	return &FinancesExpenseService{svc, repo}, nil
 }
 
-func (s *FinancesExpenseService) Add(ctx context.Context, request types.ExpensePayload) (response string, err error) {
-	// TODO
+func (s *FinancesExpenseService) Add(ctx context.Context, payload types.Expense) (response string, err error) {
+	payload.ID = s.svc.utils.GenerateUUID()
+
+	err = s.repo.AddExpense(ctx, payload)
+	if err != nil {
+		return response, err
+	}
+
 	return "expense added successfully", nil
 }
 

@@ -2,6 +2,7 @@ package financesService
 
 import (
 	"context"
+	"errors"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/kcalixto/mojo-jojo/api/config"
@@ -33,19 +34,26 @@ func NewFinancesService(
 	}
 
 	financesRepoManager := repo.NewFinancesRepositoryManager()
+	if financesRepoManager == nil {
+		return nil, errors.New("NewFinancesService -> financesRepoManager is nil")
+	}
 
 	svc.Income, err = newFinancesIncomeService(svc, financesRepoManager)
 	if err != nil {
 		return nil, err
 	}
-	svc.Expense = newFinancesExpenseService(svc)
+
+	svc.Expense, err = newFinancesExpenseService(svc, financesRepoManager)
+	if err != nil {
+		return nil, err
+	}
 
 	return svc, nil
 }
 
 type IFinancesIncomeService interface {
-	Add(context.Context, types.IncomePayload) (string, error)
+	Add(context.Context, types.Income) (string, error)
 }
 type IFinancesExpenseService interface {
-	Add(context.Context, types.ExpensePayload) (string, error)
+	Add(context.Context, types.Expense) (string, error)
 }
