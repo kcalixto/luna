@@ -6,6 +6,7 @@ import (
 
 type Controller struct {
 	Finances *FinancesController
+	Account  *AccountController
 }
 
 func New(
@@ -13,5 +14,6 @@ func New(
 ) *Controller {
 	return &Controller{
 		Finances: newFinancesController(svc),
+		Account:  newAccountController(svc),
 	}
 }

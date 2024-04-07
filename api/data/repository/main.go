@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/go-playground/validator/v10"
 	"github.com/kcalixto/mojo-jojo/api/config"
+	accountRepository "github.com/kcalixto/mojo-jojo/api/data/repository/account"
 	financesRepository "github.com/kcalixto/mojo-jojo/api/data/repository/finances"
 )
 
@@ -32,4 +33,8 @@ func New(ctx context.Context, cfg *config.Config, vld *validator.Validate) *Repo
 
 func (m *RepositoryManager) NewFinancesRepositoryManager() *financesRepository.FinancesRepositoryManager {
 	return financesRepository.NewFinancesRepositoryManager(m.client, m.cfg, m.vld)
+}
+
+func (m *RepositoryManager) NewAccountRepositoryManager() *accountRepository.AccountRepositoryManager {
+	return accountRepository.NewAccountRepositoryManager(m.client, m.cfg, m.vld)
 }

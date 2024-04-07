@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/kcalixto/mojo-jojo/api/controllers"
+	"github.com/kcalixto/mojo-jojo/api/server/router/account"
 	"github.com/kcalixto/mojo-jojo/api/server/router/finances"
 )
 
@@ -21,6 +22,10 @@ func NewEngine(
 	// Register routes
 	financesGroup := versionGroup.Group("/finances")
 	finances.RegisterFinancesRoutes(lambdaContext, financesGroup, ctrl)
+
+	// Register routes
+	accountGroup := versionGroup.Group("/account")
+	account.RegisterAccountRoutes(lambdaContext, accountGroup, ctrl)
 
 	return engine
 }

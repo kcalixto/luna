@@ -4,12 +4,14 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/kcalixto/mojo-jojo/api/config"
 	"github.com/kcalixto/mojo-jojo/api/data/repository"
+	"github.com/kcalixto/mojo-jojo/api/services/account"
 	"github.com/kcalixto/mojo-jojo/api/services/finances"
 	"github.com/kcalixto/mojo-jojo/api/services/serviceUtils"
 )
 
 type Services struct {
 	Finances *financesService.FinancesService
+	Account  *accountService.AccountService
 }
 
 func New(
@@ -24,7 +26,13 @@ func New(
 		return nil, err
 	}
 
+	accountSvc, err := accountService.NewAccountService(vld, cfg, repo, utils)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Services{
 		Finances: financesSvc,
+		Account:  accountSvc,
 	}, nil
 }
