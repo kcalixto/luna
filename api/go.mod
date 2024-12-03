@@ -1,4 +1,4 @@
-module github.com/kcalixto/mojo-jojo/api
+module github.com/kcalixto/luna/api
 
 go 1.19
 

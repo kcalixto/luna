@@ -2,11 +2,11 @@ package services
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/kcalixto/mojo-jojo/api/config"
-	"github.com/kcalixto/mojo-jojo/api/data/repository"
-	"github.com/kcalixto/mojo-jojo/api/services/account"
-	"github.com/kcalixto/mojo-jojo/api/services/finances"
-	"github.com/kcalixto/mojo-jojo/api/services/serviceUtils"
+	"github.com/kcalixto/luna/api/config"
+	"github.com/kcalixto/luna/api/data/repository"
+	"github.com/kcalixto/luna/api/services/account"
+	"github.com/kcalixto/luna/api/services/finances"
+	"github.com/kcalixto/luna/api/services/serviceUtils"
 )
 
 type Services struct {

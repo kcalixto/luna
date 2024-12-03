@@ -3,8 +3,8 @@ package controllerutils
 import (
 	"time"
 
-	"github.com/kcalixto/mojo-jojo/api/controllers/viewmodels"
-	"github.com/kcalixto/mojo-jojo/api/types"
+	"github.com/kcalixto/luna/api/controllers/viewmodels"
+	"github.com/kcalixto/luna/api/types"
 )
 
 const (

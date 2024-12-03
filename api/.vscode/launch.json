@@ -10,7 +10,7 @@
             "env": {
                 "ENV": "local",
                 "SERVER_PORT": ":3005",
-                "SINGLE_TABLE_NAME": "mojo-jojo-db",
+                "SINGLE_TABLE_NAME": "luna-db",
             }
         }
     ]

@@ -7,11 +7,11 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/kcalixto/mojo-jojo/api/config"
-	"github.com/kcalixto/mojo-jojo/api/controllers"
-	"github.com/kcalixto/mojo-jojo/api/data/repository"
-	"github.com/kcalixto/mojo-jojo/api/server/router"
-	"github.com/kcalixto/mojo-jojo/api/services"
+	"github.com/kcalixto/luna/api/config"
+	"github.com/kcalixto/luna/api/controllers"
+	"github.com/kcalixto/luna/api/data/repository"
+	"github.com/kcalixto/luna/api/server/router"
+	"github.com/kcalixto/luna/api/services"
 )
 
 func endIfError(err error) {

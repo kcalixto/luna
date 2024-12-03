@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/kcalixto/mojo-jojo/api/types"
+	"github.com/kcalixto/luna/api/types"
 )
 
 // TransactionModel is the model for getting transactions from the database

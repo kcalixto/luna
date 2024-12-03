@@ -3,7 +3,7 @@ package accountRepository
 import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/go-playground/validator/v10"
-	"github.com/kcalixto/mojo-jojo/api/config"
+	"github.com/kcalixto/luna/api/config"
 )
 
 type AccountRepositoryManager struct {

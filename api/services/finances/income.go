@@ -3,8 +3,8 @@ package financesService
 import (
 	"context"
 
-	financesRepository "github.com/kcalixto/mojo-jojo/api/data/repository/finances"
-	"github.com/kcalixto/mojo-jojo/api/types"
+	financesRepository "github.com/kcalixto/luna/api/data/repository/finances"
+	"github.com/kcalixto/luna/api/types"
 )
 
 type FinancesIncomeService struct {

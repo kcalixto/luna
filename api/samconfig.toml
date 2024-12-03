@@ -1,8 +1,8 @@
 version = 0.1
 [default.deploy.parameters]
-stack_name = "mojo-jojo-api"
+stack_name = "luna-api"
 resolve_s3 = true
-s3_prefix = "mojo-jojo-api"
+s3_prefix = "luna-api"
 region = "sa-east-1"
 capabilities = "CAPABILITY_IAM"
 disable_rollback = false 

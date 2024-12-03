@@ -8,9 +8,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/go-playground/validator/v10"
-	"github.com/kcalixto/mojo-jojo/api/config"
-	financesModels "github.com/kcalixto/mojo-jojo/api/data/models/finances"
-	"github.com/kcalixto/mojo-jojo/api/types"
+	"github.com/kcalixto/luna/api/config"
+	financesModels "github.com/kcalixto/luna/api/data/models/finances"
+	"github.com/kcalixto/luna/api/types"
 )
 
 // IFinancesIncomeRepository is the interface that defines the methods for the finances income repository

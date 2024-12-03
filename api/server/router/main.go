@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kcalixto/mojo-jojo/api/controllers"
-	"github.com/kcalixto/mojo-jojo/api/server/router/account"
-	"github.com/kcalixto/mojo-jojo/api/server/router/finances"
+	"github.com/kcalixto/luna/api/controllers"
+	"github.com/kcalixto/luna/api/server/router/account"
+	"github.com/kcalixto/luna/api/server/router/finances"
 )
 
 func NewEngine(

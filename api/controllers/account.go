@@ -3,8 +3,8 @@ package controllers
 import (
 	"context"
 
-	"github.com/kcalixto/mojo-jojo/api/services"
-	"github.com/kcalixto/mojo-jojo/api/types"
+	"github.com/kcalixto/luna/api/services"
+	"github.com/kcalixto/luna/api/types"
 )
 
 type AccountController struct {

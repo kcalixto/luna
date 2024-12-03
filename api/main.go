@@ -6,11 +6,11 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/kcalixto/mojo-jojo/api/config"
-	controllers "github.com/kcalixto/mojo-jojo/api/controllers"
-	"github.com/kcalixto/mojo-jojo/api/data/repository"
-	"github.com/kcalixto/mojo-jojo/api/server"
-	"github.com/kcalixto/mojo-jojo/api/services"
+	"github.com/kcalixto/luna/api/config"
+	controllers "github.com/kcalixto/luna/api/controllers"
+	"github.com/kcalixto/luna/api/data/repository"
+	"github.com/kcalixto/luna/api/server"
+	"github.com/kcalixto/luna/api/services"
 )
 
 var initialized = false

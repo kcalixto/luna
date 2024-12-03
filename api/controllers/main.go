@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/kcalixto/mojo-jojo/api/services"
+	"github.com/kcalixto/luna/api/services"
 )
 
 type Controller struct {

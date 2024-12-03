@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kcalixto/mojo-jojo/api/controllers"
-	"github.com/kcalixto/mojo-jojo/api/controllers/viewmodels"
-	responseUtils "github.com/kcalixto/mojo-jojo/api/server/router/routerutils/response"
+	"github.com/kcalixto/luna/api/controllers"
+	"github.com/kcalixto/luna/api/controllers/viewmodels"
+	responseUtils "github.com/kcalixto/luna/api/server/router/routerutils/response"
 )
 
 func RegisterFinancesRoutes(lambdaContext context.Context, router *gin.RouterGroup, ctrl *controllers.Controller) {

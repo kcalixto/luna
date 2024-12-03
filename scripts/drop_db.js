@@ -5,7 +5,7 @@ AWS.config.update({
 });
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
-const tableName = 'mojo-jojo-db';
+const tableName = 'luna-db';
 
 const scanParams = {
     TableName: tableName,

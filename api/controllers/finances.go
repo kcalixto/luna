@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"context"
-	controllerutils "github.com/kcalixto/mojo-jojo/api/controllers/controllerUtils"
-	"github.com/kcalixto/mojo-jojo/api/controllers/viewmodels"
-	"github.com/kcalixto/mojo-jojo/api/services"
+	controllerutils "github.com/kcalixto/luna/api/controllers/controllerUtils"
+	"github.com/kcalixto/luna/api/controllers/viewmodels"
+	"github.com/kcalixto/luna/api/services"
 )
 
 type FinancesController struct {

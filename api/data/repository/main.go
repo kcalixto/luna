@@ -7,9 +7,9 @@ import (
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/go-playground/validator/v10"
-	"github.com/kcalixto/mojo-jojo/api/config"
-	accountRepository "github.com/kcalixto/mojo-jojo/api/data/repository/account"
-	financesRepository "github.com/kcalixto/mojo-jojo/api/data/repository/finances"
+	"github.com/kcalixto/luna/api/config"
+	accountRepository "github.com/kcalixto/luna/api/data/repository/account"
+	financesRepository "github.com/kcalixto/luna/api/data/repository/finances"
 )
 
 type RepositoryManager struct {

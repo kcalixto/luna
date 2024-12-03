@@ -3,8 +3,8 @@ package accountService
 import (
 	"context"
 
-	"github.com/kcalixto/mojo-jojo/api/data/repository/account"
-	"github.com/kcalixto/mojo-jojo/api/types"
+	"github.com/kcalixto/luna/api/data/repository/account"
+	"github.com/kcalixto/luna/api/types"
 )
 
 type AccountTransactionService struct {
